@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATTE·LAB — the audio-reactive visual engine</title>
+<meta name="description" content="Music in. Visuals out. An audio-reactive visual engine that runs entirely on your machine — 31 sources, AI look designer, stem separation, 4K ProRes export.">
+<link rel="icon" href="assets/icon_64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{ --void:#04060a; --panel:#0b0e13; --line:#1a212c; --txt:#e2eaf2; --dim:#75828f; --acc:#8fd4ff; }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--txt);font-family:"JetBrains Mono",Menlo,monospace;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--acc);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);background:rgba(4,6,10,.55);border-bottom:1px solid rgba(26,33,44,.6)}
+nav .wrap{display:flex;align-items:center;gap:14px;height:58px}
+.mark{width:26px;height:26px;border-radius:7px}
+.word{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:17px;letter-spacing:.06em}
+.word i{color:var(--acc);font-style:normal}
+nav .sp{flex:1}
+nav a.soc{font-size:11px;color:var(--dim);letter-spacing:.08em}
+nav a.soc:hover{color:var(--acc)}
+
+header{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+#nova{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero{position:relative;z-index:2;padding:120px 20px 80px}
+.hero::before{content:'';position:absolute;inset:-8% -14%;z-index:-1;
+  background:radial-gradient(ellipse 58% 52% at center,rgba(4,6,10,.78) 0%,rgba(4,6,10,.35) 55%,transparent 78%)}
+.badge{display:inline-block;font-size:10.5px;letter-spacing:.24em;color:var(--acc);border:1px solid rgba(143,212,255,.35);border-radius:99px;padding:7px 16px;text-transform:uppercase;background:rgba(4,6,10,.4)}
+h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(52px,10vw,118px);letter-spacing:.01em;margin:26px 0 10px;line-height:1;
+  text-shadow:-2px 0 0 rgba(255,70,82,.45), 2px 0 0 rgba(74,255,158,.4), 0 0 44px rgba(143,212,255,.25)}
+h1 i{color:var(--acc);font-style:normal}
+.tag{font-size:clamp(13px,2vw,17px);color:var(--dim);letter-spacing:.05em;line-height:1.7}
+.tag b{color:var(--txt);font-weight:500}
+.dl{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:42px}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.05em;
+  padding:16px 28px;border-radius:12px;border:1px solid var(--acc);color:#04121c;background:var(--acc);transition:.18s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(143,212,255,.25)}
+.btn.ghost{background:transparent;color:var(--dim);border-color:var(--line);cursor:default}
+.btn.ghost:hover{transform:none;box-shadow:none}
+.btn.alt{background:transparent;color:var(--acc);border-color:rgba(143,212,255,.55)}
+.defs{margin-top:18px;font-size:11px;color:var(--dim);letter-spacing:.08em}
+.defs b{color:var(--acc);font-weight:500}
+.sub{margin-top:16px;font-size:10.5px;color:var(--dim);letter-spacing:.06em}
+.scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:var(--dim);font-size:10px;letter-spacing:.3em;z-index:2;opacity:.7}
+
+section{padding:110px 0;border-top:1px solid var(--line)}
+h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(26px,4vw,40px);margin-bottom:10px}
+.lede{color:var(--dim);font-size:13.5px;line-height:1.8;max-width:640px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:48px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;transition:.18s}
+.card:hover{border-color:rgba(143,212,255,.45);transform:translateY(-3px)}
+.card .k{font-size:10px;letter-spacing:.22em;color:var(--acc);text-transform:uppercase}
+.card h3{font-family:"Bricolage Grotesque",sans-serif;font-size:19px;margin:10px 0 8px}
+.card p{font-size:12px;color:var(--dim);line-height:1.75}
+
+.looks{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:48px}
+.shot{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}
+.shot img{width:100%;display:block}
+.shot figcaption{padding:14px 18px;font-size:11px;color:var(--dim);letter-spacing:.05em;border-top:1px solid var(--line)}
+.shot figcaption b{color:var(--txt);display:block;font-size:12.5px;margin-bottom:3px}
+
+.install{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px;margin-top:44px;display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.install h4{font-size:13px;margin-bottom:10px;letter-spacing:.04em}
+.install ol{margin-left:18px;font-size:12px;color:var(--dim);line-height:2}
+.install code{color:var(--acc);font-size:11px}
+
+footer{border-top:1px solid var(--line);padding:56px 0 72px;font-size:11px;color:var(--dim);line-height:2}
+footer .wrap{display:flex;flex-wrap:wrap;gap:34px;justify-content:space-between}
+footer b{color:var(--txt);font-weight:500}
+
+@media (prefers-reduced-motion: reduce){ .btn:hover,.card:hover{transform:none} }
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <img class="mark" src="assets/icon_64.png" alt="">
+  <div class="word">MATTE<i>·</i>LAB</div>
+  <span class="sp"></span>
+  <a class="soc" href="https://instagram.com/solus_fx" target="_blank" rel="noopener">BY @SOLUS_FX</a>
+</div></nav>
+
+<header>
+  <canvas id="nova"></canvas>
+  <div class="hero">
+    <span class="badge">Free · Friends &amp; family build</span>
+    <h1>MATTE<i>·</i>LAB</h1>
+    <p class="tag"><b>Music in. Visuals out.</b><br>
+    An audio-reactive visual engine that runs entirely on your machine.<br>
+    Nothing uploaded. Nothing subscribed. Just sound becoming light.</p>
+    <p class="defs"><b>matte</b> /mat/ — the mask that shapes an image&ensp;·&ensp;<b>lab</b> — where it gets loud</p>
+    <div class="dl">
+      <a class="btn" href="https://github.com/jordvander/mattelab-releases/releases/latest/download/MATTE-LAB-mac.zip">&#63743; Download for macOS</a>
+      <a class="btn alt" href="https://github.com/jordvander/mattelab-releases/releases/latest/download/MATTE-LAB-windows.zip">&#8862; Download for Windows</a>
+    </div>
+    <p class="sub">macOS (Apple Silicon) · Windows 10/11 · free friends build<br>
+    Mac first open: right-click → Open&ensp;·&ensp;Windows: More info → Run anyway</p>
+  </div>
+  <div class="scrollcue">SCROLL</div>
+</header>
+
+<section id="features"><div class="wrap">
+  <h2>One engine. Every look.</h2>
+  <p class="lede">Drop a track and drive festival-grade visuals in real time — then render them
+  deterministically to a 4K master. Everything below ships in the free build.</p>
+  <div class="grid">
+    <div class="card"><div class="k">Sources</div><h3>31 visual engines</h3>
+      <p>Liquid chrome, particle supernovas, topographic wireframes, gaussian splats, plasma, ink,
+      terrain, starfields — every one wired to the music through TouchDesigner-grade envelope followers.</p></div>
+    <div class="card"><div class="k">AI</div><h3>Describe the look</h3>
+      <p>Type "deep ocean caustics that hit hard on the kick" and the AI designer builds the whole
+      preset — source, palette, particles, FX rack, reactivity — in one shot. Tweak it in words.</p></div>
+    <div class="card"><div class="k">Stems</div><h3>Stems Studio</h3>
+      <p>AI-separate any song into drums, bass, vocals and instruments. Solo them, mix them live,
+      download raw or polished mp3s — and drive the visuals from the drum stem alone.</p></div>
+    <div class="card"><div class="k">Output</div><h3>4K ProRes masters</h3>
+      <p>An offline deterministic renderer replays your track frame-perfectly through real ffmpeg into
+      ProRes 422 HQ — no dropped frames, any length, ready for the edit.</p></div>
+    <div class="card"><div class="k">3D</div><h3>Mesh holograms</h3>
+      <p>Drop any GLB and it becomes an audio-displaced hologram of points and wireframe. A 17-asset
+      starter pack ships in the box; a photo can become a 3D splat cloud.</p></div>
+    <div class="card"><div class="k">Local</div><h3>Yours, on your machine</h3>
+      <p>The whole engine runs locally in one app. Your music, your renders and your presets never
+      leave your computer. No account, no telemetry, no cloud.</p></div>
+  </div>
+</div></section>
+
+<section id="looks"><div class="wrap">
+  <h2>Straight off the engine.</h2>
+  <p class="lede">Untouched captures — no post, no grading. This is what it looks like the moment you press play.</p>
+  <div class="looks">
+    <figure class="shot"><img src="assets/shot-supernova.png" alt="Supernova preset — particle star with spectral dust disk">
+      <figcaption><b>SUPERNOVA</b>ghost-fine spectral strands sweeping off a burning core, in time with the drums</figcaption></figure>
+    <figure class="shot"><img src="assets/shot-molten.png" alt="Molten Topo preset — liquid chrome with fringed contour lines">
+      <figcaption><b>MOLTEN TOPO</b>liquid chrome under topographic contour lines, chromatic edges riding the low end</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="install"><div class="wrap">
+  <h2>Up and running in a minute.</h2>
+  <div class="install">
+    <div><h4>&#63743; macOS</h4><ol>
+      <li>Download and unzip</li>
+      <li>Drag <code>MATTE·LAB</code> to Applications</li>
+      <li>First open only: <code>right-click → Open</code> (it's an unsigned friends build)</li>
+      <li>Drop a track. That's it.</li>
+    </ol></div>
+    <div><h4>&#8862; Windows</h4><ol>
+      <li>Download and unzip</li>
+      <li>Double-click <code>MatteLab.exe</code></li>
+      <li>If SmartScreen appears: <code>More info → Run anyway</code></li>
+      <li>Drop a track. That's it.</li>
+    </ol></div>
+    <div><h4>&#10022; AI extras</h4><ol>
+      <li>Visuals work instantly, out of the box</li>
+      <li>Stem separation downloads its AI model (~2&nbsp;GB) on first use — one time, then it's fast</li>
+    </ol></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><b>MATTE·LAB</b> — an audio-reactive visual engine<br>Designed &amp; built by <a href="https://instagram.com/solus_fx" target="_blank" rel="noopener">Solus FX</a></div>
+  <div><b>Standing on open source</b><br>Stem separation powered by <a href="https://github.com/facebookresearch/demucs" target="_blank" rel="noopener">Demucs</a> (Meta AI)<br>
+  3D splats powered by <a href="https://github.com/apple/ml-sharp" target="_blank" rel="noopener">Apple ml-sharp</a><br>
+  Data overlays inspired by <a href="https://github.com/SyntaxNodes" target="_blank" rel="noopener">SyntaxNodes</a></div>
+  <div><b>Free — friends &amp; family</b><br>This build is a gift, not a product.<br>Break it, then tell Jordan how.<br><span style="opacity:.6">No relation to the maths one.</span></div>
+</div></footer>
+
+<script>
+/* ── live supernova hero — a lightweight cousin of the engine's mode 30 ── */
+(function(){
+'use strict';
+const cv=document.getElementById('nova');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const gl=cv.getContext('webgl',{antialias:false});
+if(!gl){ cv.style.background='radial-gradient(ellipse at center,#0e1622 0%,#04060a 70%)'; return; }
+const V='attribute vec2 p; void main(){ gl_Position=vec4(p,0.,1.); }';
+const F=`precision highp float;
+uniform vec2 R; uniform float T,B,MX,MY;
+float hash(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }
+float noise(vec2 p){ vec2 i=floor(p),f=fract(p);
+  float a=hash(i),b=hash(i+vec2(1.,0.)),c=hash(i+vec2(0.,1.)),d=hash(i+vec2(1.,1.));
+  vec2 u=f*f*(3.-2.*f); return mix(mix(a,b,u.x),mix(c,d,u.x),u.y); }
+float fbm(vec2 p){ float v=0.,a=.5; for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.02; a*=.5; } return v; }
+mat2 rot(float a){ float c=cos(a),s=sin(a); return mat2(c,-s,s,c); }
+float lqF(vec2 p,float tt){
+  vec2 q=vec2(fbm(p*.75+tt*.28), fbm(p*.75+vec2(4.7,2.3)-tt*.22));
+  vec2 rr=vec2(fbm(p*.9+1.9*q+vec2(8.2,1.4)+tt*.15), fbm(p*.9+1.9*q+vec2(2.9,7.6)-tt*.11));
+  return fbm(p*1.05+1.8*rr);
+}
+void main(){
+  vec2 uv=(gl_FragCoord.xy-.5*R)/min(R.x,R.y);
+  uv.x+=MX*.04; uv.y+=MY*.03;
+  float A=.28+B*.5;
+  float t4=T*.10;
+  float rad=length(uv*vec2(1.15,.78));
+  vec2 pp=uv*vec2(.78,.62);
+  pp=rot((.35+A*.4)*exp(-rad*1.6)*sin(t4*.7))*pp;
+  float h=lqF(pp,t4);
+  float e=.02;
+  float sx=(lqF(pp+vec2(e,0.),t4)-lqF(pp-vec2(e,0.),t4))/(2.*e);
+  float sy=(lqF(pp+vec2(0.,e),t4)-lqF(pp-vec2(0.,e),t4))/(2.*e);
+  vec3 n=normalize(vec3(-sx,-sy,3.-A*.9));
+  vec3 L=normalize(vec3(-.45,.62,.55));
+  float diff=pow(max(dot(n,L),0.),.75);
+  float spec=pow(max(dot(reflect(-L,n),vec3(0.,0.,1.)),0.),40.);
+  float m=smoothstep(.34,.55,h*.7+fbm(uv*.5+vec2(3.3)+t4*.1)*.5-rad*.75+.24+A*.04);
+  float warm=fbm(uv*1.1+vec2(9.1,5.5)+t4*.2);
+  vec3 base=mix(vec3(.60,.62,.68),vec3(.72,.56,.40),smoothstep(.38,.78,warm));
+  vec3 col=base*(.10+diff*.92)+vec3(1.)*spec*(1.1+B*.9)
+    +vec3(1.,.42,.08)*smoothstep(.84,.97,warm)*diff*.8;
+  float patch=smoothstep(.38,.66,fbm(uv*1.+vec2(1.7,8.3)-t4*.13));
+  float N2=34.;
+  float fo=.009+A*.012;
+  vec3 topo;
+  { float v=fract((h+fo)*N2); topo.r=smoothstep(.14,.04,min(v,1.-v));
+    v=fract(h*N2);            topo.g=smoothstep(.14,.04,min(v,1.-v));
+    v=fract((h-fo)*N2);       topo.b=smoothstep(.14,.04,min(v,1.-v)); }
+  vec3 fringed=vec3(topo.g)+vec3(max(topo.r-topo.g,0.),0.,max(topo.b-topo.g,0.))*.85;
+  col+=fringed*patch*(.30+A*.28);
+  vec3 dispc=.5+.5*cos(6.2831*(h*2.+rad*.7+vec3(0.,.33,.67)));
+  float spot=smoothstep(.35,.8,fbm(uv*1.7+vec2(6.4,.8)+t4*.3));
+  col+=dispc*spec*(.5+A*.5);
+  col+=dispc*pow(m*(1.-m)*4.,2.4)*spot*(.5+A*.3);
+  col*=m*.9;
+  col+=(hash(gl_FragCoord.xy+fract(T)*13.7)-.5)*(1.6/255.);
+  gl_FragColor=vec4(col,1.);
+}`;
+function sh(t,s){ const o=gl.createShader(t); gl.shaderSource(o,s); gl.compileShader(o); return o; }
+const pr=gl.createProgram(); gl.attachShader(pr,sh(gl.VERTEX_SHADER,V)); gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,F));
+gl.linkProgram(pr); gl.useProgram(pr);
+const b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+const lp=gl.getAttribLocation(pr,'p'); gl.enableVertexAttribArray(lp); gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+const uR=gl.getUniformLocation(pr,'R'),uT=gl.getUniformLocation(pr,'T'),uB=gl.getUniformLocation(pr,'B'),
+      uMX=gl.getUniformLocation(pr,'MX'),uMY=gl.getUniformLocation(pr,'MY');
+let mx=0,my=0,tmx=0,tmy=0,beat=0,beatT=0,t0=performance.now();
+function size(){ const d=Math.min(devicePixelRatio||1,2);
+  cv.width=innerWidth*d*0.75; cv.height=innerHeight*d*0.75; gl.viewport(0,0,cv.width,cv.height); }
+size(); addEventListener('resize',size);
+addEventListener('pointermove',e=>{ tmx=(e.clientX/innerWidth-0.5)*2; tmy=(e.clientY/innerHeight-0.5)*2; },{passive:true});
+addEventListener('pointerdown',()=>{ beatT=Math.min(1.3,beatT+1.0); },{passive:true});
+function frame(){
+  const t=(performance.now()-t0)/1000;
+  // everything eased — no discrete jumps anywhere: liquid must flow, never jerk
+  beatT*=0.955;
+  const swell=0.10+0.10*Math.sin(t*0.35);
+  beat+=((beatT+swell)-beat)*0.045;
+  mx+=(tmx-mx)*0.04; my+=(tmy-my)*0.04;
+  gl.uniform2f(uR,cv.width,cv.height); gl.uniform1f(uT,t); gl.uniform1f(uB,beat);
+  gl.uniform1f(uMX,mx); gl.uniform1f(uMY,my);
+  gl.drawArrays(gl.TRIANGLES,0,6);
+  if(!reduce) requestAnimationFrame(frame);
+}
+frame();
+})();
+</script>
+</body>
+</html>
