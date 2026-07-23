@@ -99,11 +99,24 @@ footer b{color:var(--txt);font-weight:500}
       <a class="btn" href="https://github.com/jordvander/mattelab-releases/releases/latest/download/MATTE-LAB-mac.zip">&#63743; Download for macOS</a>
       <a class="btn alt" href="https://github.com/jordvander/mattelab-releases/releases/latest/download/MATTE-LAB-windows.zip">&#8862; Download for Windows</a>
     </div>
+    <p class="sub" id="dlVer" style="letter-spacing:.1em">Version 1.0.0</p>
     <p class="sub">macOS (Apple Silicon) · Windows 10/11 · free friends build<br>
     Mac first open: right-click → Open&ensp;·&ensp;Windows: More info → Run anyway</p>
   </div>
   <div class="scrollcue">SCROLL</div>
 </header>
+<script>
+/* the download buttons always serve the newest release — this line always names it.
+   Self-updating: reads the release feed, so the site can never show a stale version. */
+fetch('https://api.github.com/repos/jordvander/mattelab-releases/releases/latest')
+  .then(function(r){ return r.json(); })
+  .then(function(d){ if(d&&(d.name||d.tag_name)){
+    var el=document.getElementById('dlVer');
+    var m=/(\d+\.\d+(?:\.\d+)?)/.exec(d.name||'')||/(\d+\.\d+(?:\.\d+)?)/.exec(d.tag_name||'');
+    var date=d.published_at?new Date(d.published_at).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}):'';
+    if(m) el.textContent='Version '+m[1]+(date?' · released '+date:'');
+  } }).catch(function(){});
+</script>
 
 <section id="features"><div class="wrap">
   <h2>One engine. Every look.</h2>
