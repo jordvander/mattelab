@@ -75,6 +75,22 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:34px;justify-content:space-between}
 footer b{color:var(--txt);font-weight:500}
 
 @media (prefers-reduced-motion: reduce){ .btn:hover,.card:hover{transform:none} }
+
+/* newsletter signup — native to the site, not MailerLite's default card */
+.signup{max-width:452px;margin:36px auto 0}
+.signup .lbl{font-size:11px;color:var(--dim);letter-spacing:.08em;margin-bottom:12px}
+.signup form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.signup input[type=email]{flex:1;min-width:210px;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  color:var(--txt);font-family:inherit;font-size:13px;letter-spacing:.03em;padding:14px 16px;outline:none;transition:.18s}
+.signup input[type=email]::placeholder{color:var(--dim)}
+.signup input[type=email]:focus{border-color:rgba(143,212,255,.55);box-shadow:0 0 0 3px rgba(143,212,255,.12)}
+.signup button{font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.05em;padding:14px 24px;border-radius:12px;
+  border:1px solid var(--acc);color:#04121c;background:var(--acc);cursor:pointer;transition:.18s;white-space:nowrap}
+.signup button:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(143,212,255,.25)}
+.signup .row-success{color:var(--acc);font-size:12.5px;letter-spacing:.04em;line-height:1.7}
+.signup .fine{margin-top:12px;font-size:10px;color:var(--dim);letter-spacing:.06em;opacity:.82}
+.signup .ml-error input[type=email]{border-color:#ff5a7a}
+@media (prefers-reduced-motion: reduce){ .signup button:hover{transform:none} }
 </style>
 </head>
 <body>
@@ -102,6 +118,22 @@ footer b{color:var(--txt);font-weight:500}
     <p class="sub" id="dlVer" style="letter-spacing:.1em">Version 1.0.0</p>
     <p class="sub">macOS (Apple Silicon) · Windows 10/11 · free friends build<br>
     Mac first open: right-click → Open&ensp;·&ensp;Windows: More info → Run anyway</p>
+
+    <div class="signup ml-form-embedContainer ml-subscribe-form ml-subscribe-form-44102010" id="mlb2-44102010">
+      <div class="row-form">
+        <p class="lbl">Get notified when new features drop.</p>
+        <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2531400/forms/193887935923226235/subscribe" method="post" target="_blank">
+          <input aria-label="email" aria-required="true" type="email" name="fields[email]" placeholder="you@email.com" autocomplete="email" required>
+          <input type="hidden" name="ml-submit" value="1">
+          <input type="hidden" name="anticsrf" value="true">
+          <button type="submit" class="primary">Notify me</button>
+        </form>
+        <p class="fine">No spam. Just new features. Unsubscribe anytime.</p>
+      </div>
+      <div class="row-success" style="display:none">
+        <p>You're on the list — check your inbox to confirm.</p>
+      </div>
+    </div>
   </div>
   <div class="scrollcue">SCROLL</div>
 </header>
@@ -276,5 +308,13 @@ function frame(){
 frame();
 })();
 </script>
+
+<!-- MailerLite — powers the signup form above (styling is all ours; this only handles submit + list) -->
+<script>
+(function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);},l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+ml('account','2531400');
+function ml_webform_success_44102010(){var $=ml_jQuery||jQuery;$('.ml-subscribe-form-44102010 .row-success').show();$('.ml-subscribe-form-44102010 .row-form').hide();}
+</script>
+<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
 </body>
 </html>
