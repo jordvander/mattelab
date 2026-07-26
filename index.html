@@ -4,24 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MATTE·LAB — the audio-reactive visual engine</title>
-<meta name="description" content="Music in. Visuals out. An audio-reactive visual engine that runs entirely on your machine — 31 sources, AI-forged modes, stem separation, 4K ProRes export.">
+<meta name="description" content="MATTE·LAB is a desktop app that turns music into reactive visuals — live or rendered to a 4K master. Runs entirely on your machine. Free.">
 <link rel="icon" href="assets/icon_64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{ --void:#04060a; --panel:#0b0e13; --line:#1a212c; --txt:#e2eaf2; --dim:#75828f; --acc:#8fd4ff; }
+:root{ --void:#0e0d0b; --panel:#14120f; --line:#332e26; --txt:#EAE5D8; --dim:#8f887a; --acc:#EAE5D8; --rec:#e0492a; }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--void);color:var(--txt);font-family:"JetBrains Mono",Menlo,monospace;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;top:0;left:0;right:0;height:2px;z-index:999;pointer-events:none;
+  background:repeating-linear-gradient(90deg,rgba(234,229,216,.25) 0 22px,transparent 22px 34px)}
+header::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(234,229,216,.03) 0 1px,transparent 1px 3px)}
 a{color:var(--acc);text-decoration:none}
 .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);background:rgba(4,6,10,.55);border-bottom:1px solid rgba(26,33,44,.6)}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);background:rgba(14,13,11,.6);border-bottom:1px solid rgba(51,46,38,.8)}
 nav .wrap{display:flex;align-items:center;gap:14px;height:58px}
-.mark{width:26px;height:26px;border-radius:7px}
-.word{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:17px;letter-spacing:.06em}
-.word i{color:var(--acc);font-style:normal}
+.mark{width:26px;height:26px}
+.word{font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-weight:900;font-size:16px;letter-spacing:.02em}
+.word i{color:var(--rec);font-style:normal}
 nav .sp{flex:1}
 nav a.soc{font-size:11px;color:var(--dim);letter-spacing:.08em}
 nav a.soc:hover{color:var(--acc)}
@@ -30,45 +34,47 @@ header{position:relative;min-height:100svh;display:flex;align-items:center;justi
 #nova{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero{position:relative;z-index:2;padding:120px 20px 80px}
 .hero::before{content:'';position:absolute;inset:-8% -14%;z-index:-1;
-  background:radial-gradient(ellipse 58% 52% at center,rgba(4,6,10,.78) 0%,rgba(4,6,10,.35) 55%,transparent 78%)}
-.badge{display:inline-block;font-size:10.5px;letter-spacing:.24em;color:var(--acc);border:1px solid rgba(143,212,255,.35);border-radius:99px;padding:7px 16px;text-transform:uppercase;background:rgba(4,6,10,.4)}
-h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(52px,10vw,118px);letter-spacing:.01em;margin:26px 0 10px;line-height:1;
-  text-shadow:-2px 0 0 rgba(255,70,82,.45), 2px 0 0 rgba(74,255,158,.4), 0 0 44px rgba(143,212,255,.25)}
-h1 i{color:var(--acc);font-style:normal}
+  background:radial-gradient(ellipse 58% 52% at center,rgba(14,13,11,.82) 0%,rgba(14,13,11,.4) 55%,transparent 78%)}
+.badge{display:inline-block;font-size:10.5px;letter-spacing:.24em;color:var(--txt);border:1.5px solid var(--txt);padding:7px 16px;text-transform:uppercase;background:rgba(14,13,11,.5)}
+h1{font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-weight:900;font-size:clamp(48px,9.5vw,112px);letter-spacing:-.01em;margin:26px 0 10px;line-height:1;
+  text-shadow:-3px 0 0 rgba(224,73,42,.55), 3px 0 0 rgba(74,134,255,.5)}
+h1 i{color:var(--txt);font-style:normal}
 .tag{font-size:clamp(13px,2vw,17px);color:var(--dim);letter-spacing:.05em;line-height:1.7}
 .tag b{color:var(--txt);font-weight:500}
 .dl{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:42px}
 .btn{display:inline-flex;align-items:center;gap:10px;font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.05em;
-  padding:16px 28px;border-radius:12px;border:1px solid var(--acc);color:#04121c;background:var(--acc);transition:.18s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(143,212,255,.25)}
+  padding:16px 28px;border:1.5px solid var(--txt);color:var(--void);background:var(--txt);transition:.15s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(234,229,216,.3)}
 .btn.ghost{background:transparent;color:var(--dim);border-color:var(--line);cursor:default}
 .btn.ghost:hover{transform:none;box-shadow:none}
-.btn.alt{background:transparent;color:var(--acc);border-color:rgba(143,212,255,.55)}
+.btn.alt{background:transparent;color:var(--txt);border-color:var(--txt)}
 .defs{margin-top:18px;font-size:11px;color:var(--dim);letter-spacing:.08em}
-.defs b{color:var(--acc);font-weight:500}
+.defs b{color:var(--txt);font-weight:500}
 .sub{margin-top:16px;font-size:10.5px;color:var(--dim);letter-spacing:.06em}
 .scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:var(--dim);font-size:10px;letter-spacing:.3em;z-index:2;opacity:.7}
 
 section{padding:110px 0;border-top:1px solid var(--line)}
-h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(26px,4vw,40px);margin-bottom:10px}
+h2{font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-weight:900;font-size:clamp(24px,3.6vw,36px);margin-bottom:10px}
 .lede{color:var(--dim);font-size:13.5px;line-height:1.8;max-width:640px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:48px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;transition:.18s}
-.card:hover{border-color:rgba(143,212,255,.45);transform:translateY(-3px)}
-.card .k{font-size:10px;letter-spacing:.22em;color:var(--acc);text-transform:uppercase}
-.card h3{font-family:"Bricolage Grotesque",sans-serif;font-size:19px;margin:10px 0 8px}
+.card{background:var(--panel);border:1px solid var(--line);padding:26px;transition:.15s}
+.card:hover{border-color:var(--txt);transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(234,229,216,.18)}
+.card .k{font-size:10px;letter-spacing:.22em;color:var(--rec);text-transform:uppercase;font-weight:700}
+.card h3{font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-size:16.5px;margin:10px 0 8px}
 .card p{font-size:12px;color:var(--dim);line-height:1.75}
 
-.looks{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:48px}
-.shot{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}
-.shot img{width:100%;display:block}
-.shot figcaption{padding:14px 18px;font-size:11px;color:var(--dim);letter-spacing:.05em;border-top:1px solid var(--line)}
+.looks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:48px}
+.shot{border:1.5px solid var(--txt);overflow:hidden;background:#000;box-shadow:6px 6px 0 rgba(234,229,216,.16);position:relative}
+.shot video{width:100%;display:block;aspect-ratio:9/16;object-fit:cover}
+.shot::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(234,229,216,.04) 0 1px,transparent 1px 3px)}
+.shot figcaption{position:relative;z-index:2;padding:12px 14px;font-size:10px;color:var(--dim);letter-spacing:.08em;border-top:1.5px solid var(--txt);background:var(--panel)}
 .shot figcaption b{color:var(--txt);display:block;font-size:12.5px;margin-bottom:3px}
 
-.install{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px;margin-top:44px;display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.install{background:var(--panel);border:1px solid var(--line);padding:30px;margin-top:44px;display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .install h4{font-size:13px;margin-bottom:10px;letter-spacing:.04em}
 .install ol{margin-left:18px;font-size:12px;color:var(--dim);line-height:2}
-.install code{color:var(--acc);font-size:11px}
+.install code{color:var(--txt);font-size:11px;background:#0a0908;padding:1px 5px}
 
 footer{border-top:1px solid var(--line);padding:56px 0 72px;font-size:11px;color:var(--dim);line-height:2}
 footer .wrap{display:flex;flex-wrap:wrap;gap:34px;justify-content:space-between}
@@ -80,16 +86,16 @@ footer b{color:var(--txt);font-weight:500}
 .signup{max-width:452px;margin:36px auto 0}
 .signup .lbl{font-size:11px;color:var(--dim);letter-spacing:.08em;margin-bottom:12px}
 .signup form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.signup input[type=email]{flex:1;min-width:210px;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+.signup input[type=email]{flex:1;min-width:210px;background:var(--panel);border:1.5px solid var(--line);
   color:var(--txt);font-family:inherit;font-size:13px;letter-spacing:.03em;padding:14px 16px;outline:none;transition:.18s}
 .signup input[type=email]::placeholder{color:var(--dim)}
-.signup input[type=email]:focus{border-color:rgba(143,212,255,.55);box-shadow:0 0 0 3px rgba(143,212,255,.12)}
-.signup button{font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.05em;padding:14px 24px;border-radius:12px;
-  border:1px solid var(--acc);color:#04121c;background:var(--acc);cursor:pointer;transition:.18s;white-space:nowrap}
-.signup button:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(143,212,255,.25)}
+.signup input[type=email]:focus{border-color:var(--txt)}
+.signup button{font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.05em;padding:14px 24px;
+  border:1.5px solid var(--txt);color:var(--void);background:var(--txt);cursor:pointer;transition:.15s;white-space:nowrap}
+.signup button:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(234,229,216,.3)}
 .signup .row-success{color:var(--acc);font-size:12.5px;letter-spacing:.04em;line-height:1.7}
 .signup .fine{margin-top:12px;font-size:10px;color:var(--dim);letter-spacing:.06em;opacity:.82}
-.signup .ml-error input[type=email]{border-color:#ff5a7a}
+.signup .ml-error input[type=email]{border-color:var(--rec)}
 @media (prefers-reduced-motion: reduce){ .signup button:hover{transform:none} }
 </style>
 </head>
@@ -108,9 +114,9 @@ footer b{color:var(--txt);font-weight:500}
     <span class="badge">Free · Friends &amp; family build</span>
     <h1>MATTE<i>·</i>LAB</h1>
     <p class="tag"><b>Music in. Visuals out.</b><br>
-    An audio-reactive visual engine that runs entirely on your machine.<br>
-    Nothing uploaded. Nothing subscribed. Just sound becoming light.</p>
-    <p class="defs"><b>matte</b> /mat/ — the mask that shapes an image&ensp;·&ensp;<b>lab</b> — where it gets loud</p>
+    A desktop app that turns any track into reactive visuals — play them live,<br>
+    or render a frame-perfect 4K master. Everything runs on your machine.</p>
+    <p class="defs"><b>matte</b> /mat/ — the mask that shapes an image</p>
     <div class="dl">
       <a class="btn" href="https://github.com/jordvander/mattelab-releases/releases/latest/download/MATTE-LAB-mac.zip">&#63743; Download for macOS</a>
       <a class="btn alt" href="https://github.com/jordvander/mattelab-releases/releases/latest/download/MATTE-LAB-windows.zip">&#8862; Download for Windows</a>
@@ -152,13 +158,13 @@ fetch('https://api.github.com/repos/jordvander/mattelab-releases/releases/latest
 </script>
 
 <section id="features"><div class="wrap">
-  <h2>One engine. Every look.</h2>
-  <p class="lede">Drop a track and drive festival-grade visuals in real time — then render them
-  deterministically to a 4K master. Everything below ships in the free build.</p>
+  <h2>What's inside.</h2>
+  <p class="lede">Load a song, pick a look, shape it while it plays. Everything below ships in the
+  free build — no account, no upsell, and Simple mode means the first render is three clicks in.</p>
   <div class="grid">
     <div class="card"><div class="k">Sources</div><h3>31 visual engines</h3>
       <p>Liquid chrome, particle supernovas, topographic wireframes, gaussian splats, plasma, ink,
-      terrain, starfields — every one wired to the music through TouchDesigner-grade envelope followers.</p></div>
+      terrain, starfields — every one driven by hit detection that follows the music, not just the volume.</p></div>
     <div class="card"><div class="k">AI</div><h3>Forge a mode that doesn't exist</h3>
       <p>Describe a look nobody has built — "a cathedral of rotating glass ribs that shatter on the
       kick" — and the AI writes it as live shader code, compiles it, repairs its own errors and saves it
@@ -203,13 +209,18 @@ fetch('https://api.github.com/repos/jordvander/mattelab-releases/releases/latest
 </div></section>
 
 <section id="looks"><div class="wrap">
-  <h2>Straight off the engine.</h2>
-  <p class="lede">Untouched captures — no post, no grading. This is what it looks like the moment you press play.</p>
+  <h2>Made with it.</h2>
+  <p class="lede">Cuts from real pieces — rendered by the engine, finished by a person. Muted here;
+  the sound-on versions are on <a href="https://instagram.com/solus_fx" target="_blank" rel="noopener">@solus_fx</a>.</p>
   <div class="looks">
-    <figure class="shot"><img src="assets/shot-supernova.png" alt="Supernova preset — particle star with spectral dust disk">
-      <figcaption><b>SUPERNOVA</b>ghost-fine spectral strands sweeping off a burning core, in time with the drums</figcaption></figure>
-    <figure class="shot"><img src="assets/shot-molten.png" alt="Molten Topo preset — liquid chrome with fringed contour lines">
-      <figcaption><b>MOLTEN TOPO</b>liquid chrome under topographic contour lines, chromatic edges riding the low end</figcaption></figure>
+    <figure class="shot"><video src="assets/loop-1.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <figcaption>REEL — 001</figcaption></figure>
+    <figure class="shot"><video src="assets/loop-2.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <figcaption>REEL — 002</figcaption></figure>
+    <figure class="shot"><video src="assets/loop-3.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <figcaption>REEL — 003</figcaption></figure>
+    <figure class="shot"><video src="assets/loop-4.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <figcaption>GOAL — SPORT EDIT</figcaption></figure>
   </div>
 </div></section>
 
