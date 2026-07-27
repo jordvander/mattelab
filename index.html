@@ -213,16 +213,40 @@ fetch('https://api.github.com/repos/jordvander/mattelab-releases/releases/latest
   <p class="lede">Cuts from real pieces — rendered by the engine, finished by a person. Muted here;
   the sound-on versions are on <a href="https://instagram.com/solus_fx" target="_blank" rel="noopener">@solus_fx</a>.</p>
   <div class="looks">
-    <figure class="shot"><video src="assets/loop-1.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    <figure class="shot"><video src="assets/loop-1.mp4" muted loop playsinline preload="none" poster="assets/poster-1.jpg"></video>
       <figcaption>REEL — 001</figcaption></figure>
-    <figure class="shot"><video src="assets/loop-2.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    <figure class="shot"><video src="assets/loop-2.mp4" muted loop playsinline preload="none" poster="assets/poster-2.jpg"></video>
       <figcaption>REEL — 002</figcaption></figure>
-    <figure class="shot"><video src="assets/loop-3.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    <figure class="shot"><video src="assets/loop-3.mp4" muted loop playsinline preload="none" poster="assets/poster-3.jpg"></video>
       <figcaption>REEL — 003</figcaption></figure>
-    <figure class="shot"><video src="assets/loop-4.mp4" autoplay muted loop playsinline preload="metadata"></video>
-      <figcaption>GOAL — SPORT EDIT</figcaption></figure>
+    <figure class="shot"><video src="assets/loop-4.mp4" muted loop playsinline preload="none" poster="assets/poster-4.jpg"></video>
+      <figcaption>REEL — 004</figcaption></figure>
   </div>
 </div></section>
+<script>
+/* reels stream only when on screen — full quality without making the page heavy.
+   Plain scroll-driven visibility check (not IntersectionObserver) so the same
+   code path runs in every browser and is testable headless. */
+(function(){
+  var vids=[].slice.call(document.querySelectorAll('.shot video'));
+  var pending=false;
+  function check(){
+    pending=false;
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    vids.forEach(function(v){
+      var r=v.getBoundingClientRect();
+      var visible=r.bottom>vh*0.12 && r.top<vh*0.88;
+      if(visible && v.paused){ v.play().catch(function(){}); }
+      else if(!visible && !v.paused){ v.pause(); }
+    });
+  }
+  var last=0;
+  function onScroll(){ var n=Date.now(); if(n-last>120){ last=n; check(); } else if(!pending){ pending=true; setTimeout(function(){ pending=false; check(); },140); } }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll,{passive:true});
+  check();
+})();
+</script>
 
 <section id="install"><div class="wrap">
   <h2>Up and running in a minute.</h2>
