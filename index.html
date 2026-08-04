@@ -117,30 +117,58 @@ footer b{color:var(--txt);font-weight:500}
     Load a track and it drives the visuals — play them live,<br>
     or render a frame-perfect 4K master. Everything runs on your machine.</p>
     <p class="defs"><b>matte</b> /mat/ — the mask that shapes an image&ensp;·&ensp;<b>lab</b> — where the sauce is made</p>
-    <div class="dl">
+    <!-- email gate: the downloads are free, the email is the price.
+         Submits to the SAME MailerLite form the old notify box used, then
+         reveals the buttons. Unlock is remembered in localStorage. The list
+         service must never block a download — unlock happens either way. -->
+    <div class="signup" id="dlGate">
+      <div class="row-form">
+        <p class="lbl">MATTE·LAB is free — drop your email and the downloads unlock.</p>
+        <form id="gateForm">
+          <input aria-label="email" aria-required="true" type="email" id="gateEmail" placeholder="you@email.com" autocomplete="email" required>
+          <input type="text" id="gateHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-5000px;width:1px;height:1px;opacity:0">
+          <button type="submit" class="primary" id="gateBtn">Unlock downloads</button>
+        </form>
+        <p class="fine">New features land in your inbox when they ship. No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+    <div class="dl" id="dlBtns" style="display:none">
       <a class="btn" href="https://github.com/jordvander/mattelab-releases/releases/latest/download/MATTE-LAB-mac.zip">&#63743; Download for macOS</a>
       <a class="btn alt" href="https://github.com/jordvander/mattelab-releases/releases/latest/download/MATTE-LAB-windows.zip">&#8862; Download for Windows</a>
     </div>
     <p class="sub" id="dlVer" style="letter-spacing:.1em">Version 1.0.0</p>
     <p class="sub">macOS (Apple Silicon) · Windows 10/11 · free friends build<br>
-    Mac first open: right-click → Open&ensp;·&ensp;Windows: More info → Run anyway<br>
-    Trouble downloading? <a href="https://github.com/jordvander/mattelab-releases/releases/latest" style="color:inherit">Grab it from the releases page</a>.</p>
-
-    <div class="signup ml-form-embedContainer ml-subscribe-form ml-subscribe-form-44102010" id="mlb2-44102010">
-      <div class="row-form">
-        <p class="lbl">Get notified when new features drop.</p>
-        <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2531400/forms/193887935923226235/subscribe" method="post" target="_blank">
-          <input aria-label="email" aria-required="true" type="email" name="fields[email]" placeholder="you@email.com" autocomplete="email" required>
-          <input type="hidden" name="ml-submit" value="1">
-          <input type="hidden" name="anticsrf" value="true">
-          <button type="submit" class="primary">Notify me</button>
-        </form>
-        <p class="fine">No spam. Just new features. Unsubscribe anytime.</p>
-      </div>
-      <div class="row-success" style="display:none">
-        <p>You're on the list — check your inbox to confirm.</p>
-      </div>
-    </div>
+    Mac first open: right-click → Open&ensp;·&ensp;Windows: More info → Run anyway<span id="dlAlt" style="display:none"><br>
+    Trouble downloading? <a href="https://github.com/jordvander/mattelab-releases/releases/latest" style="color:inherit">Grab it from the releases page</a>.</span></p>
+    <script>
+    (function(){
+      var KEY='ml.gate.email';
+      function unlock(){
+        document.getElementById('dlGate').style.display='none';
+        document.getElementById('dlBtns').style.display='';
+        var alt=document.getElementById('dlAlt'); if(alt) alt.style.display='';
+      }
+      try{ if(localStorage.getItem(KEY)) unlock(); }catch(e){}
+      document.getElementById('gateForm').addEventListener('submit',function(e){
+        e.preventDefault();
+        var em=(document.getElementById('gateEmail').value||'').trim();
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) return;
+        if(document.getElementById('gateHp').value){ unlock(); return; } /* bots unlock quietly, nothing stored */
+        var btn=document.getElementById('gateBtn'); btn.disabled=true; btn.textContent='Unlocking…';
+        var fired=false;
+        var done=function(){ if(fired) return; fired=true;
+          try{ localStorage.setItem(KEY,em); }catch(err){}
+          unlock(); };
+        var fd=new FormData();
+        fd.append('fields[email]',em); fd.append('ml-submit','1'); fd.append('anticsrf','true');
+        try{
+          fetch('https://assets.mailerlite.com/jsonp/2531400/forms/193887935923226235/subscribe',
+            {method:'POST',body:fd,mode:'no-cors'}).then(done,done);
+        }catch(err){ done(); }
+        setTimeout(done,2500); /* belt: a hung request must never hold the download hostage */
+      });
+    })();
+    </script>
   </div>
   <div class="scrollcue">SCROLL</div>
 </header>
