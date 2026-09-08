@@ -4,42 +4,42 @@
   "assets": {
     "roto-windows": {
       "name": "install-sam2.ps1",
-      "version": "2.35.1",
+      "version": "2.35.2",
       "platform": "Windows",
-      "url": "https://github.com/jordvander/mattelab-releases/releases/download/v2.35.1/install-sam2.ps1",
-      "release_url": "https://github.com/jordvander/mattelab-releases/releases/tag/v2.35.1",
+      "url": "https://github.com/jordvander/mattelab-releases/releases/download/v2.35.2/install-sam2.ps1",
+      "release_url": "https://github.com/jordvander/mattelab-releases/releases/tag/v2.35.2",
       "bytes": 5211,
       "sha256": "0aa32f6f03e8bf94a783bf1387209da0c98115ade781863398b4cc7f85659fe8",
       "note": "Optional local Python environment and model downloads."
     },
     "roto-mac": {
       "name": "install-sam2.sh",
-      "version": "2.35.1",
+      "version": "2.35.2",
       "platform": "macOS",
-      "url": "https://github.com/jordvander/mattelab-releases/releases/download/v2.35.1/install-sam2.sh",
-      "release_url": "https://github.com/jordvander/mattelab-releases/releases/tag/v2.35.1",
+      "url": "https://github.com/jordvander/mattelab-releases/releases/download/v2.35.2/install-sam2.sh",
+      "release_url": "https://github.com/jordvander/mattelab-releases/releases/tag/v2.35.2",
       "bytes": 3427,
       "sha256": "1e48bc7ae4cb0cb27fcdceefa96f99fba071e414e0d09b67c9d154fab2e998c5",
       "note": "Optional local Python environment and model downloads."
     },
     "mac": {
       "name": "MATTE-LAB-mac.zip",
-      "version": "2.35.1",
-      "platform": "macOS 12 or later · Apple Silicon (M1+)",
-      "url": "https://github.com/jordvander/mattelab-releases/releases/download/v2.35.1/MATTE-LAB-mac.zip",
-      "release_url": "https://github.com/jordvander/mattelab-releases/releases/tag/v2.35.1",
-      "bytes": 456842439,
-      "sha256": "a790e011510348dde2571deeb60c9193ce3b532d2c998c2b8f69a59d43f689d1",
+      "version": "2.35.2",
+      "platform": "macOS 12 or later \u00b7 Apple Silicon (M1+)",
+      "url": "https://github.com/jordvander/mattelab-releases/releases/download/v2.35.2/MATTE-LAB-mac.zip",
+      "release_url": "https://github.com/jordvander/mattelab-releases/releases/tag/v2.35.2",
+      "bytes": 456846196,
+      "sha256": "6d41c0c5f00f8ade0a9cbd6b1749dcfbba3213aac2ef5cdcba3ff45ba7f08e1d",
       "note": "Unnotarized preview. Apple Silicon only."
     },
     "windows": {
       "name": "MATTE-LAB-windows.zip",
-      "version": "2.35.1",
-      "platform": "Windows 10 / 11 · 64-bit",
-      "url": "https://github.com/jordvander/mattelab-releases/releases/download/v2.35.1/MATTE-LAB-windows.zip",
-      "release_url": "https://github.com/jordvander/mattelab-releases/releases/tag/v2.35.1",
-      "bytes": 420843579,
-      "sha256": "a406458f29bbc162058fae6be27caa443905dfa1aadce71b9ec8a727da2fc5fe",
+      "version": "2.35.2",
+      "platform": "Windows 10 / 11 \u00b7 64-bit",
+      "url": "https://github.com/jordvander/mattelab-releases/releases/download/v2.35.2/MATTE-LAB-windows.zip",
+      "release_url": "https://github.com/jordvander/mattelab-releases/releases/tag/v2.35.2",
+      "bytes": 420844525,
+      "sha256": "c8dfdd1f37e582926296362f91c996edf1a88dc678d7b7f986c84882fbb54714",
       "note": "Unsigned publisher. Windows may show a SmartScreen prompt."
     }
   }
