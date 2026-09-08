@@ -1,4 +1,4 @@
-/* Downloads are ordinary HTML links; this script only enhances the presentation. */
+/* Motion and presentation controls. Email signup is handled by download-gate.js. */
 (function () {
   'use strict';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -54,28 +54,4 @@
     link.addEventListener('click', function () { document.getElementById('mac-help').open = true; });
   });
 
-  const form = document.getElementById('signupForm');
-  const button = document.getElementById('signupButton');
-  const status = document.getElementById('signupStatus');
-  form.addEventListener('submit', async function (event) {
-    event.preventDefault();
-    if (!form.reportValidity()) return;
-    if (document.getElementById('signupHp').value) return;
-    const controller = new AbortController();
-    const timeout = setTimeout(function () { controller.abort(); }, 8000);
-    button.disabled = true;
-    button.textContent = 'Sending…';
-    status.textContent = '';
-    try {
-      await fetch(form.action, {method: 'POST', body: new FormData(form), mode: 'no-cors', signal: controller.signal});
-      // MailerLite returns an opaque cross-origin response. Do not claim a confirmed subscription.
-      status.textContent = 'Request sent. Check your inbox for a confirmation from the lab. If nothing arrives, please try again.';
-    } catch (error) {
-      status.textContent = 'The signup service did not respond. Please try again later. The app downloads above are ready to use.';
-    } finally {
-      clearTimeout(timeout);
-      button.disabled = false;
-      button.textContent = 'Keep me posted ↗';
-    }
-  });
 })();

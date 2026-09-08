@@ -3,7 +3,7 @@
 
 Edit release-data.json after upload verification, then run:
     python3 scripts/sync-release.py
-The HTML remains functional if JavaScript, MailerLite or the GitHub API is down.
+Generated download links stay behind the email gate, including without JavaScript.
 """
 from pathlib import Path
 from urllib.parse import urlparse
@@ -36,14 +36,14 @@ for key, title, label in [('mac', 'macOS', 'Mac'), ('windows', 'Windows', 'Windo
     cards.append(f'''<article class="download-card">
       <div class="platform-line"><h3>{title}</h3><span class="platform-symbol" aria-hidden="true">{'⌘' if key == 'mac' else '⊞'}</span></div>
       <p class="download-meta">{e(a['platform'])}<br>Version {e(a['version'])} · ZIP · {size(a)}</p>
-      <a class="button{secondary}" data-asset="{key}" href="{e(a['url'])}">Download for {label} <span aria-hidden="true">↓</span></a>
-      <p class="download-note">{e(a['note'])} <a href="{'#mac-help' if key == 'mac' else e(a['release_url'])}">{'Mac installation notes' if key == 'mac' else 'Release notes'} ↗</a></p>
+      <a class="button{secondary}" data-asset="{key}" href="#download-signup" data-gated-url="{e(a['url'])}">Download for {label} <span aria-hidden="true">↓</span></a>
+      <p class="download-note">{e(a['note'])} <a href="{'#mac-help' if key == 'mac' else '#download-signup'}" {'' if key == 'mac' else 'data-gated-url="' + e(a['release_url']) + '"'}>{'Mac installation notes' if key == 'mac' else 'Release notes'} ↗</a></p>
     </article>''')
 rendered = '<div class="downloads">' + '\n'.join(cards) + '</div>'
 links = []
 for key, label in [('roto-mac', 'ROTO toolkit for Mac'), ('roto-windows', 'ROTO toolkit for Windows')]:
     a = assets[key]
-    links.append(f'<a data-asset="{key}" href="{e(a["url"])}">{label} ↗</a>')
+    links.append(f'<a data-asset="{key}" href="#download-signup" data-gated-url="{e(a["url"])}">{label} ↗</a>')
 toolkits = '<div class="toolkit-links">' + '\n'.join(links) + '</div>'
 hashes = '<dl class="hashes">' + ''.join(f'<dt>{e(a["name"])} · {e(a["version"])}</dt><dd>{e(a["sha256"])}</dd>' for a in assets.values()) + '</dl>'
 html_path = ROOT / 'index.html'
