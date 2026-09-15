@@ -50,13 +50,18 @@ h1 i{color:var(--txt);font-style:normal}
 .btn.alt{background:transparent;color:var(--txt);border-color:var(--txt)}
 .hero{width:100%;max-width:100%}
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:14px;margin:40px auto 0;max-width:720px;width:100%;text-align:left}
-.plan{background:rgba(14,13,11,.72);border:1.5px solid var(--line);padding:20px 22px;display:flex;flex-direction:column;gap:10px;backdrop-filter:blur(6px)}
-.plan.hot{border-color:var(--txt);box-shadow:5px 5px 0 rgba(234,229,216,.18)}
+.plan{position:relative;background:rgba(14,13,11,.55);border:1.5px solid rgba(234,229,216,.35);padding:28px 30px 30px;display:flex;flex-direction:column;gap:12px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:.15s}
+.plan::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(234,229,216,.035) 0 1px,transparent 1px 3px)}
+.plan:hover{transform:translate(-2px,-2px)}
+.plan.hot{border-color:var(--txt);box-shadow:6px 6px 0 rgba(234,229,216,.22);background:rgba(20,18,15,.7)}
+.plan.hot::before{content:"MOST PEOPLE";position:absolute;top:-1.5px;right:16px;transform:translateY(-50%);font-size:9px;letter-spacing:.24em;font-weight:700;color:var(--void);background:var(--rec);padding:4px 8px}
 .plan .pk{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--rec)}
-.plan .pt{font-size:12.5px;color:var(--txt);line-height:1.6}
-.plan .pb{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px}
-.plan .pb .btn{padding:12px 18px;font-size:12px}
-.plan .pn{font-size:10.5px;color:var(--dim);letter-spacing:.04em}
+.plan .pp{font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-size:44px;line-height:1;color:var(--txt);text-shadow:-2px 0 0 rgba(224,73,42,.45),2px 0 0 rgba(74,134,255,.4)}
+.plan .pp small{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:400;color:var(--dim);letter-spacing:.1em;margin-left:6px;text-shadow:none}
+.plan .pt{font-size:12.5px;color:var(--txt);line-height:1.7;flex:1}
+.plan .pb{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.plan .pb .btn{padding:13px 20px;font-size:12px}
+.plan .pn{font-size:10.5px;color:var(--dim);letter-spacing:.04em;width:100%}
 .defs{margin-top:18px;font-size:11px;color:var(--dim);letter-spacing:.08em}
 .defs b{color:var(--txt);font-weight:500}
 .sub{margin-top:16px;font-size:10.5px;color:var(--dim);letter-spacing:.06em}
@@ -140,18 +145,20 @@ footer b{color:var(--txt);font-weight:500}
     <div class="plans" id="dlBtns">
       <div class="plan">
         <div class="pk">Free</div>
-        <div class="pt">The full app. Exports carry a watermark.</div>
+        <div class="pp">£0</div>
+        <div class="pt">The full app, every feature, no time limit.<br>Exports carry a watermark.</div>
         <div class="pb">
           <a class="btn alt" href="https://github.com/jordvander/mattelab-releases/releases/latest/download/MATTE-LAB-mac.zip">&#63743; macOS</a>
           <a class="btn alt" href="https://github.com/jordvander/mattelab-releases/releases/latest/download/MATTE-LAB-windows.zip">&#8862; Windows</a>
         </div>
       </div>
       <div class="plan hot">
-        <div class="pk">Founder licence · £59 one-time</div>
-        <div class="pt">Clean exports, 3 machines, every 1.x update.</div>
+        <div class="pk">Founder licence</div>
+        <div class="pp">£59 <small>one-time</small></div>
+        <div class="pt">Clean exports, up to 4K. Three machines.<br>Every 1.x update, forever.</div>
         <div class="pb">
           <a class="btn lemonsqueezy-button" href="https://mattelab.lemonsqueezy.com/checkout/buy/461f6dac-b1e9-498c-a30a-c472d1415d1a">Buy a licence</a>
-          <span class="pn">Key by email, paste it into the free app.</span>
+          <span class="pn">Key by email. Paste it into the free app.</span>
         </div>
       </div>
     </div>
